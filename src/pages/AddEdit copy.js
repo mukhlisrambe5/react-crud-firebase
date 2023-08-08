@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import './AddEdit.css'
 import fireDb from '../firebase';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from 'react-toastify';
 
 const initialState = {
   name: "",
@@ -16,24 +14,21 @@ const AddEdit = () => {
   const [data, setData] = useState({})
 
   const { name, email, contact } = state;
-  const navigate =  useNavigate();
+  const history =  useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!name || !email || !contact){
-      toast.error("Please provide value in each input field",{ position: toast.POSITION.TOP_RIGHT})
+      toast.error("Please provide value in each input field")
     }else{
       fireDb.child("contacts").push(state, (err)=>{
         if(err){
-          toast.error(err);    
+          toast.error(err);   
         }else{
-          // toast.success("Contacts Added successfully");
-          toast.success('Contacts Added successfully!', {
-            position: toast.POSITION.TOP_LEFT
-        });
+          toast.success("Contacts Added successfully");
         }
       });
-      setTimeout(() => navigate("/"), 6000);
+      setTimeout(() => history.push("/"), 500);
     }
   }
   const handleInputChange = (e) => {
@@ -42,7 +37,6 @@ const AddEdit = () => {
   }
   return (
     <div style={{ marginTop: "100px" }}>
-      <ToastContainer position='top-center' />
       <form
         style={{
           margin: "auto",
