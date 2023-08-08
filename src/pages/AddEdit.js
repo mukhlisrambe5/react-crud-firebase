@@ -21,15 +21,17 @@ const AddEdit = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!name || !email || !contact){
-      toast.error("Please provide value in each input field",{ position: toast.POSITION.TOP_RIGHT})
+      toast.error("Please provide value in each input field",{ position: toast.POSITION.TOP_CENTER})
     }else{
       fireDb.child("contacts").push(state, (err)=>{
         if(err){
-          toast.error(err);    
-        }else{
-          // toast.success("Contacts Added successfully");
-          toast.success('Contacts Added successfully!', {
+          toast.error("Error Notification !", {
             position: toast.POSITION.TOP_LEFT
+          });
+    
+        }else{
+          toast.success('Contacts Added successfully!', {
+            position: toast.POSITION.TOP_CENTER
         });
         }
       });
@@ -42,7 +44,7 @@ const AddEdit = () => {
   }
   return (
     <div style={{ marginTop: "100px" }}>
-      <ToastContainer position='top-center' />
+      <ToastContainer />
       <form
         style={{
           margin: "auto",
